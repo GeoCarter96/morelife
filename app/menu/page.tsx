@@ -4,22 +4,23 @@ import { Leaf, ShoppingBag, Zap, Flame, Calendar, Star, StarHalf, Activity, Drop
 import { motion, AnimatePresence } from 'framer-motion';
 
 
-interface MenuItemProps {
+interface DailySpecial {
+  day: string;
+  item: string;
+}
+
+interface MenuItem {
   name: string;
-  price?: string; // Singular
-  desc?: string;
-  popular?: boolean;
+  price?: string; 
+  prices?: Record<string, string>; 
+  desc: string;
+  extra?: string;
+  options?: boolean;
 }
 
 export default function MoreLifeMenu() {
- 
-const [activeCategory, setActiveCategory] = useState<keyof typeof menuData>('Entrées');
-
-  const [dailySpecial, setDailySpecial] = useState(null);
-
-  const categories = ['Entrées', 'Wraps & Patties', 'Soups & Stews', 'Sides', 'Beverages'];
-
-  const menuData = {
+  
+  const menuData: Record<string, MenuItem[]> = {
     'Entrées': [
       { name: "Vegan Brown Stew Chicken", prices: { Large: "$25.00", Medium: "$20.00" }, desc: "Plant-based vegan chicken simmered in savory browning sauce.", options: true },
       { name: "Vegan Curry Chicken", prices: { Large: "$25.00", Medium: "$20.00" }, desc: "Bold Jamaican curry spices with plant-based protein.", options: true },
@@ -51,6 +52,11 @@ const [activeCategory, setActiveCategory] = useState<keyof typeof menuData>('Ent
     ]
   };
 
+  const [activeCategory, setActiveCategory] = useState<string>('Entrées');
+  const [dailySpecial, setDailySpecial] = useState<DailySpecial | null>(null);
+
+  const categories = ['Entrées', 'Wraps & Patties', 'Soups & Stews', 'Sides', 'Beverages'];
+
   const superfoods = [
     { name: "Callaloo", icon: <Activity className="text-green-500" />, benefit: "Blood Purifier", desc: "Iron-rich Jamaican staple for immune support." },
     { name: "Sea Moss", icon: <Droplets className="text-yellow-500" />, benefit: "92 Minerals", desc: "Supports thyroid health and deep hydration." },
@@ -69,7 +75,7 @@ const [activeCategory, setActiveCategory] = useState<keyof typeof menuData>('Ent
   return (
     <main className="min-h-screen bg-[#050505] text-white font-sans pb-20">
       
-      {/* HEADER SECTION */}
+     
       <header className="relative pt-32 pb-12 px-6 border-b-8 border-green-600">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
           <div className="space-y-4">
@@ -91,7 +97,7 @@ const [activeCategory, setActiveCategory] = useState<keyof typeof menuData>('Ent
         </div>
       </header>
 
-      {/* RATING BADGE */}
+    
       <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4">
         <div className="flex text-yellow-500">
           {[...Array(4)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
@@ -100,7 +106,7 @@ const [activeCategory, setActiveCategory] = useState<keyof typeof menuData>('Ent
         <span className="text-[10px] font-black uppercase tracking-widest opacity-60">4.7 / 5 on Google Reviews</span>
       </div>
 
-      {/* CATEGORY NAV */}
+    
       <nav className="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10 px-6">
         <div className="max-w-7xl mx-auto flex overflow-x-auto no-scrollbar gap-8 py-6">
           {categories.map((cat) => (
@@ -112,7 +118,7 @@ const [activeCategory, setActiveCategory] = useState<keyof typeof menuData>('Ent
         </div>
       </nav>
 
-      {/* MENU LIST */}
+     
       <section className="max-w-5xl mx-auto px-6 py-16">
         <AnimatePresence mode="wait">
           <motion.div 
@@ -122,7 +128,7 @@ const [activeCategory, setActiveCategory] = useState<keyof typeof menuData>('Ent
             exit={{ opacity: 0, y: -20 }}
             className="space-y-12"
           >
-            {menuData[activeCategory].map((item, i) => (
+            {menuData[activeCategory]?.map((item, i) => (
               <div key={i} className="group border-b border-white/5 pb-10">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
                   <h3 className="text-4xl font-black uppercase italic tracking-tighter group-hover:text-yellow-500 transition-colors">
@@ -164,21 +170,7 @@ const [activeCategory, setActiveCategory] = useState<keyof typeof menuData>('Ent
         </AnimatePresence>
       </section>
 
-      {/* VIBE GALLERY */}
-      <section className="py-24 border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 mb-12">
-          <h2 className="text-5xl font-black uppercase italic tracking-tighter">THE <span className="text-red-600">VIBE</span> GALLERY</h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="aspect-square bg-zinc-900 overflow-hidden group border border-white/5">
-              <img src={`https://images.unsplash.com{i}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60 group-hover:opacity-100" alt="More Life Vibes" />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* NUTRITION LEGEND */}
+     
       <section className="max-w-7xl mx-auto px-6 py-24 bg-zinc-900/30 border-y border-white/5">
         <h2 className="text-4xl font-black uppercase italic tracking-tighter mb-12 text-center">Healing <span className="text-green-500">Index</span></h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -192,7 +184,7 @@ const [activeCategory, setActiveCategory] = useState<keyof typeof menuData>('Ent
         </div>
       </section>
 
-      {/* FOOTER CTA */}
+    
       <footer className="max-w-7xl mx-auto px-6 mt-12">
         <a href="https://www.ubereats.com/store/more-life/_r_5YEzjQVyhQNrB93saiQ?srsltid=AfmBOorLbSmCmP4DJUfAd9u_cpg2FVXqN3Q2pjuu0WCTVuEmHnY9bi02" target="_blank"
            className="w-full bg-green-600 hover:bg-yellow-500 text-white hover:text-black p-10 flex flex-col md:flex-row items-center justify-between transition-all group">

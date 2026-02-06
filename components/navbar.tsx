@@ -2,12 +2,21 @@
 import { useState } from "react";
 import {  Menu, X } from 'lucide-react';
  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Menu', href: '/menu' },
-    {name: 'Smoothie Builder', href: '/builder'},
-    { name: 'UberEats', href: 'https://www.ubereats.com/store/more-life/_r_5YEzjQVyhQNrB93saiQ?srsltid=AfmBOorLbSmCmP4DJUfAd9u_cpg2FVXqN3Q2pjuu0WCTVuEmHnY9bi02' },
-    { name: 'Instagram', href: 'https://www.instagram.com/liveirie.morelife' },
-  ];
+  { name: 'Home', href: '/' },
+  { name: 'Menu', href: '/menu' },
+  { name: 'Smoothie Builder', href: '/builder' },
+  { 
+    name: 'UberEats', 
+    href: 'https://www.ubereats.com/store/more-life/_r_5YEzjQVyhQNrB93saiQ?srsltid=AfmBOorLbSmCmP4DJUfAd9u_cpg2FVXqN3Q2pjuu0WCTVuEmHnY9bi02',
+    isExternal: true 
+  },
+  { 
+    name: 'Instagram', 
+    href: 'https://www.instagram.com/liveirie.morelife',
+    isExternal: true 
+  },
+];
+
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,23 +33,30 @@ export default function Navbar() {
             <span className="font-black italic text-white text-2xl tracking-tighter uppercase ml-2">MORE LIFE</span>
           </div>
            <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a key={link.name} href={link.href} className="text-xs font-black text-white uppercase tracking-widest hover:text-yellow-500 transition-colors">
-                {link.name}
-              </a>
-            ))}
+           {navLinks.map((link) => (
+  <a 
+    key={link.name} 
+    href={link.href} 
+   
+    target={link.isExternal ? "_blank" : undefined}
+    rel={link.isExternal ? "noopener noreferrer" : undefined}
+    className="text-xs font-black uppercase text-white tracking-widest hover:text-yellow-500 transition-colors"
+  >
+    {link.name}
+  </a>
+))}
+
             <a href="tel:2673318696" className="bg-yellow-500 text-black px-5 py-2 font-black text-xs uppercase skew-x-[-10deg] hover:bg-white transition-colors">
               Call Now
             </a>
           </div>
 
-          {/* Mobile Toggle */}
           <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
         
-        {/* Mobile Menu */}
+     
         {isMenuOpen && (
           <div className="md:hidden bg-black border-b border-white/10 p-6 flex flex-col gap-4">
             {navLinks.map((link) => (
