@@ -10,25 +10,6 @@ interface MenuItemProps {
   desc?: string;
   popular?: boolean;
 }
-// Define these types to resolve the red underlines
-interface DailySpecial {
-  day: string;
-  item: string;
-}
-
-interface MenuItem {
-  name: string;
-  price?: string; // Standard price string
-  prices?: Record<string, string>; // For Large/Medium objects
-  desc: string;
-  extra?: string;
-  options?: boolean;
-}
-
-interface MenuData {
-  [key: string]: MenuItem[];
-}
-
 
 export default function MoreLifeMenu() {
  
@@ -148,8 +129,8 @@ const [activeCategory, setActiveCategory] = useState<keyof typeof menuData>('Ent
                     {item.name}
                   </h3>
                   <div className="flex gap-4 items-center">
-                    {item.price ? (
-                      Object.entries(item.price).map(([size, price]) => (
+                    {item.prices ? (
+                      Object.entries(item.prices).map(([size, price]) => (
                         <div key={size} className="flex flex-col items-end">
                           <span className="text-[10px] font-black uppercase text-white/30">{size}</span>
                           <span className="text-2xl font-black text-red-600">{price}</span>
