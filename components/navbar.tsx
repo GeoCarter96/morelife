@@ -57,15 +57,32 @@ export default function Navbar() {
         </div>
         
      
-        {isMenuOpen && (
-          <div className="md:hidden bg-black border-b border-white/10 p-6 flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <a key={link.name} href={link.href} className="text-xl font-black uppercase italic" onClick={() => setIsMenuOpen(false)}>
-                {link.name}
-              </a>
-            ))}
-          </div>
-        )}
+       {isMenuOpen && (
+  <div className="md:hidden bg-black border-b border-white/10 p-6 flex flex-col gap-4">
+    {navLinks.map((link) => (
+      <a 
+        key={link.name} 
+        href={link.href} 
+       
+        target={link.isExternal ? "_blank" : undefined}
+        rel={link.isExternal ? "noopener noreferrer" : undefined}
+        className="text-xl text-white font-black uppercase italic hover:text-yellow-500 transition-colors" 
+        onClick={() => setIsMenuOpen(false)}
+      >
+        {link.name}
+      </a>
+    ))}
+    
+ 
+    <a 
+      href="tel:2673318696" 
+      className="mt-4 bg-yellow-500 text-black py-4 text-center font-black uppercase italic skew-x-[-10deg] active:scale-95 transition-all"
+    >
+      Call Now
+    </a>
+  </div>
+)}
+
       </nav>
     </div>
   )
