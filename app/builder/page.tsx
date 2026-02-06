@@ -2,9 +2,13 @@
 import { Plus, Check, RefreshCcw, Droplets, Zap, ShieldCheck, QrCode, X, Star, StarHalf, MapPin, Navigation } from 'lucide-react';
 import { useState } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-
+interface Selections {
+  fruits: string[];
+ base: string;
+ boost: string
+}
 export default function SmoothieBuilder() {
-  const [selections, setSelections] = useState({ base: '', fruits: [], boost: '' });
+  const [selections, setSelections] =useState<Selections>({ base: '', fruits: [], boost: '' });
   const [showQR, setShowQR] = useState(false);
 
   const options = {
@@ -21,7 +25,7 @@ export default function SmoothieBuilder() {
     ]
   };
 
-  const toggleFruit = (fruit) => {
+ const toggleFruit = (fruit: string) => {
     setSelections(prev => ({
       ...prev,
       fruits: prev.fruits.includes(fruit) 
